@@ -18,10 +18,10 @@ final class TeriTests: XCTestCase {
   
   func testBoolean() {
     
-    let b1: Boolean = .not(.var("x"))
-    let b2: Boolean = .not(.var("y"))
-    let b3: Boolean = .and(.var("x"), .not(.var("y")))
-    let b4: Boolean = .and(.var("y"), .not(.var("x")))
+    let b1: Boolean = .not(.var("b"))
+    let b2: Boolean = .not(.var("b"))
+    let b3: Boolean = .and(.var("b1"), .not(.var("b2")))
+    let b4: Boolean = .and(.var("b2"), .not(.var("b1")))
     
     XCTAssertEqual(Boolean.true, Boolean.true)
     XCTAssertEqual(Boolean.false, Boolean.false)

@@ -66,6 +66,7 @@ extension Nat: Hashable {
   }
 }
 
+
 // Pretty print for Natural
 extension Nat: CustomStringConvertible {
   var description: String {

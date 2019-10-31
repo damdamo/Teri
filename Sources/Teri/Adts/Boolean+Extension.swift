@@ -70,3 +70,22 @@ extension Boolean: Hashable {
   }
 
 }
+
+
+// Pretty print for Boolean
+extension Boolean: CustomStringConvertible {
+  var description: String {
+    switch self {
+    case .true:
+      return "true"
+    case .false:
+      return "false"
+    case .var(let s):
+      return "\"\(s)\""
+    case .not(let b):
+      return "not(\(b.description))"
+    case .and(let b1, let b2):
+      return "and(\(b1.description), \(b2.description))"
+    }
+  }
+}
