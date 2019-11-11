@@ -22,7 +22,7 @@ extension Nat: Hashable {
   ///   - rhs: Right term to compare
   ///   - lhsAnonymized: A dictionary which contains left variables with its corresponding string number
   ///   - rhsAnonymized: A dictionary which contains right variables with its corresponding string number
-  /// Returns: A boolean which is true if the both term are the same
+  /// - Returns: A boolean which is true if the both term are the same
   static func equals(lhs: Nat, rhs: Nat, lhsAnonymized: inout [String: String], rhsAnonymized: inout [String:String]) -> Bool {
     switch (lhs, rhs) {
     case (.zero, .zero):

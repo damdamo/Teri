@@ -21,7 +21,7 @@ extension Boolean: Hashable {
   ///   - rhs: Right term to compare
   ///   - lhsAnonymized: A dictionary which contains left variables with its corresponding string number
   ///   - rhsAnonymized: A dictionary which contains right variables with its corresponding string number
-  /// Returns: A boolean which is true if the both term are the same
+  /// - sReturns: A boolean which is true if the both term are the same
   static func equals(lhs: Boolean, rhs: Boolean, lhsAnonymized: inout [String: String], rhsAnonymized: inout [String:String]) -> Bool {
     switch (lhs, rhs) {
     case (.true, .true):
@@ -70,7 +70,6 @@ extension Boolean: Hashable {
   }
 
 }
-
 
 // Pretty print for Boolean
 extension Boolean: CustomStringConvertible {
