@@ -12,11 +12,12 @@ Teri is a library to term rewriting.
 - Compare two terms (Anonymised variables)
 - Merge Terms
 - Beautiful print
+- ADTs
+- Replacement
+
 
 ### TODO List :
 
-- ADTs
-- Replacement
 - Introduce Rules (Term, Term, Condition)
 - Equational theory:
   - Reflexivity
