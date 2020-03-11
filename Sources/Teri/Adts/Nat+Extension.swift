@@ -2,7 +2,7 @@
 //  Nat+Extension.swift
 //  Teri
 //
-//  Created by Damien Morard on 28.10.19.
+//  Created by Damien Morard on 05.02.20.
 //
 
 extension Nat: Hashable {
@@ -22,7 +22,7 @@ extension Nat: Hashable {
   ///   - rhs: Right term to compare
   ///   - lhsAnonymized: A dictionary which contains left variables with its corresponding string number
   ///   - rhsAnonymized: A dictionary which contains right variables with its corresponding string number
-  /// - Returns: A boolean which is true if the both term are the same
+  /// Returns: A boolean which is true if the both term are the same
   static func equals(lhs: Nat, rhs: Nat, lhsAnonymized: inout [String: String], rhsAnonymized: inout [String:String]) -> Bool {
     switch (lhs, rhs) {
     case (.zero, .zero):
@@ -57,28 +57,41 @@ extension Nat: Hashable {
     case .var(let x):
       hasher.combine(x)
     case .succ(let x):
-      hasher.combine(1)
+      hasher.combine("succ")
       hasher.combine(x.hashValue)
     case .add(let x, let y):
+      hasher.combine("add")
+      hasher.combine(x.hashValue)
+      hasher.combine(y.hashValue)
+    case .sub(let x, let y):
+      hasher.combine("sub")
+      hasher.combine(x.hashValue)
+      hasher.combine(y.hashValue)
+    case .eq(let x, let y):
+      hasher.combine("eq")
       hasher.combine(x.hashValue)
       hasher.combine(y.hashValue)
     }
   }
+  
 }
 
 
-// Pretty print for Natural
 extension Nat: CustomStringConvertible {
   var description: String {
     switch self {
     case .zero:
       return "0"
     case .succ(let x):
-      return "s(\(x.description))"
-    case .var(let x):
-      return "\"\(x)\""
+      return "succ(\(x.description))"
+    case .eq(let x, let y):
+      return "\(x.description) == \(y.description)"
     case .add(let x, let y):
-      return "\(x.description) + \(y.description)"
+      return "add(\(x.description), \(y.description))"
+    case .sub(let x, let y):
+      return "sub(\(x.description), \(y.description))"
+    case .var(let v):
+      return v
     }
   }
 }
