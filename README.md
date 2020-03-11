@@ -2,27 +2,24 @@
 
 ## W.I.P
 
-Teri is a library to term rewriting.
+Teri is a library to term rewriting using strategies
 
 ### Done :
 
-- Write a Term:
+- ADTs:
   - Nat
   - Boolean
-- Compare two terms (Anonymised variables)
-- Merge Terms
-- Beautiful print
-- ADTs
-- Replacement
-
+- Rewriting rules
+- Rewriting strategies
+- Basics unit test cases
 
 ### TODO List :
 
-- Introduce Rules (Term, Term, Condition)
-- Equational theory:
+- Improve tests
+- Beautiful print
+- Introduce Rules
+- Equational proof/theory:
   - Reflexivity
   - Symmetry
   - Transitivity
   - ...
-- Rewriting rules
-- Rewriting strategies
