@@ -1,19 +1,7 @@
 import XCTest
 @testable import Teri
 
-final class TeriTests: XCTestCase {
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
-      
-      let t1: Nat = .succ(.succ(.var("x")))
-      let t2: Nat = .succ(.succ(.var("y")))
-      
-      print(Nat.equal(t1, t2))
-      print(Nat.replace(t: t1, substitution: ["y": .zero]))
-      
-    }
+final class TeriStrategiesTests: XCTestCase {
   
   func testAxiom() {
     let t1: Term = .n(.succ(.zero))
@@ -74,6 +62,8 @@ final class TeriTests: XCTestCase {
     let t5: Term = .n(.add(.add(.zero,.zero), .var("x")))
     let t6: Term = .n(.add(.var("x"),.add(.zero,.zero)))
     let t7: Term = .n(.add(.zero, .var("x")))
+    let t8: Term = .n(.add(.var("x"), .add(.var("y"), .zero)))
+    // let t9: Term = .n(.eq(.var("x"), .var("y")))
 
     XCTAssertEqual(t1.eval(s: .innermost(.axiom)), .n(.zero))
     XCTAssertEqual(t2.eval(s: .innermost(.axiom)), .n(.zero))
@@ -82,14 +72,16 @@ final class TeriTests: XCTestCase {
     XCTAssertEqual(t5.eval(s: .innermost(.axiom)), .n(.add(.zero,.var("x"))))
     XCTAssertEqual(t6.eval(s: .innermost(.axiom)), .n(.var("x")))
     XCTAssertEqual(t7.eval(s: .innermost(.axiom)), .n(.add(.zero,.var("x"))))
+    XCTAssertEqual(t8.eval(s: .innermost(.axiom)), .n(.add(.var("x"), .var("y"))))
+    
+    // print(t9.eval(s: .innermost(.axiom)))
   }
 
     static var allTests = [
-        ("testExample", testExample),
         ("testAxiom", testAxiom),
         ("testSequence", testSequence),
         ("testChoice", testChoice),
-        ("testTry", testExample),
+        ("testTry", testTry),
         ("testAll", testAll),
         ("testInnermost", testInnermost),
     ]
