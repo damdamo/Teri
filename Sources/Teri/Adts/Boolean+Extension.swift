@@ -33,7 +33,7 @@ extension Boolean: Hashable {
     return self.anonymizedRec(varAnonymized: &varAnonymized)
   }
 
-  func hash(into hasher: inout Hasher) {
+  public func hash(into hasher: inout Hasher) {
     switch self {
     case .true:
       hasher.combine("true")
@@ -59,7 +59,7 @@ extension Boolean: Hashable {
 
 
 extension Boolean: CustomStringConvertible {
-  var description: String {
+  public var description: String {
     switch self {
     case .true:
       return "true"

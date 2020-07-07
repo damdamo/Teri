@@ -32,7 +32,7 @@ extension Nat: Hashable {
     return self.anonymizedRec(varAnonymized: &varAnonymized)
   }
 
-  func hash(into hasher: inout Hasher) {
+  public func hash(into hasher: inout Hasher) {
     switch self {
     case .zero:
       hasher.combine(0)
@@ -60,7 +60,7 @@ extension Nat: Hashable {
 
 
 extension Nat: CustomStringConvertible {
-  var description: String {
+  public var description: String {
     switch self {
     case .zero:
       return "0"

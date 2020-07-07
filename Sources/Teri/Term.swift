@@ -1,7 +1,7 @@
 /// Enum which groups all terms
 /// Give methods to evaluate a term with strategies
 ///  Terms available: Nat / Boolean
-indirect enum Term: Equatable {
+public indirect enum Term: Equatable {
   case n(Nat)
   case b(Boolean)
 
@@ -54,7 +54,7 @@ indirect enum Term: Equatable {
   /// - Parameters:
   ///   - s: The strategy to use
   /// Returns: The result of the evaluate term with the given strategy
-  func eval(s: Strategy) -> Term? {
+  public func eval(s: Strategy) -> Term? {
     switch s {
     case .identity:
       return self
@@ -79,7 +79,7 @@ indirect enum Term: Equatable {
 }
 
 extension Term: CustomStringConvertible {
-  var description: String {
+  public var description: String {
     switch self {
     case .n(let x):
       return x.description

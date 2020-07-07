@@ -1,5 +1,5 @@
 /// Description of Naturals
-indirect enum Nat: Equatable {
+public indirect enum Nat: Equatable {
   
   case zero
   case succ(Nat)
@@ -8,7 +8,7 @@ indirect enum Nat: Equatable {
   case eq(Nat, Nat)
   case `var`(String)
   
-  static func rewriting(_ t: Term) -> Term? {
+  public static func rewriting(_ t: Term) -> Term? {
     switch t {
     case .n(let st):
       switch st {

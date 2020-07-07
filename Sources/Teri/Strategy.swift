@@ -1,7 +1,7 @@
 /// Enum of the different strategies:
 /// Generators: identity / fail / axiom / sequence / choice / all
 /// Bonus: try / repeat / bottomup / topdown / innermost
-indirect enum Strategy {
+public indirect enum Strategy {
   // Generators
   case identity
   case fail

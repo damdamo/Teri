@@ -1,5 +1,5 @@
 /// Description of Booleans
-indirect enum Boolean: Equatable {
+public indirect enum Boolean: Equatable {
   case `true`
   case `false`
   case not(Boolean)
@@ -7,7 +7,7 @@ indirect enum Boolean: Equatable {
   case and(Boolean, Boolean)
   case `var`(String)
 
-  static func rewriting(_ t: Term) -> Term? {
+  public static func rewriting(_ t: Term) -> Term? {
     switch t {
     case .b(let st):
       switch st {
