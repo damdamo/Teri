@@ -12,12 +12,6 @@ indirect enum Nat: Equatable {
     switch t {
     case .n(let st):
       switch st {
-//      case .zero:
-//        return .n(.zero)
-//      case .succ(let x):
-//        return .n(.succ(x))
-//      case .var(let x):
-//        return .n(.var(x))
       case .add(let x, let y):
         if let r = addition(x, y) {
           return .n(r)
@@ -158,50 +152,4 @@ indirect enum Nat: Equatable {
         replace(t: y, substitution: substitution))
     }
   }
-    
 }
-
-
-//enum RuleName {
-//  case add
-//  case sub
-//  case eq
-//}
-//
-///// Apply a declared rule on a term.
-///// - Parameters:
-/////   - t: The term where the rule is applied
-/////   - ruleName: The rule to apply. Rule is a String.
-///// - Returns: A new term where we try to apply the rule.
-/////   If no rules are found, the term is just returned.
-//func rewritingStep(t: Term, ruleName: RuleName) -> Term {
-//  // st is a sub term
-//  switch t {
-//  case .n(let st):
-//    switch ruleName {
-//    case .add:
-//      switch st {
-//      case .add(let x, let y):
-//        return .n(addition(x, y))
-//      default:
-//        return .n(st)
-//      }
-//    case .sub:
-//      switch st {
-//      case .sub(let x, let y):
-//        return .n(subtraction(x, y))
-//      default:
-//        return .n(st)
-//      }
-//    case .eq:
-//      switch st {
-//      case .eq(let x, let y):
-//        return .b(equal(x, y))
-//      default:
-//        return .n(st)
-//      }
-//    }
-//  default:
-//    return t
-//  }
-//}

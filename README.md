@@ -1,8 +1,7 @@
 # Teri (TErm RewrIting)
 
-## W.I.P
+Teri is a library to term rewriting using strategies.
 
-Teri is a library to term rewriting using strategies
 
 ### Done :
 
@@ -15,9 +14,6 @@ Teri is a library to term rewriting using strategies
 
 ### TODO List :
 
-- Improve tests
-- Beautiful print
-- Introduce Rules
 - Equational proof/theory:
   - Reflexivity
   - Symmetry

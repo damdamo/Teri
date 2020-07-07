@@ -6,7 +6,6 @@
 //
 
 extension Boolean: Hashable {
-  
 
   func anonymizedRec(varAnonymized: inout [String:String]) -> Boolean {
     switch self {

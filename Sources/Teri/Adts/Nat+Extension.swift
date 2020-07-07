@@ -1,10 +1,3 @@
-//
-//  Nat+Extension.swift
-//  Teri
-//
-//  Created by Damien Morard on 05.02.20.
-//
-
 extension Nat: Hashable {
   /// Anonymized variables in a term by a simple string number
   /// For instance, x + y becomes "0" + "1".

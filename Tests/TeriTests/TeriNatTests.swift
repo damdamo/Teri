@@ -63,8 +63,7 @@ final class TeriNatTests: XCTestCase {
     let t6: Term = .n(.add(.var("x"),.add(.zero,.zero)))
     let t7: Term = .n(.add(.zero, .var("x")))
     let t8: Term = .n(.add(.var("x"), .add(.var("y"), .zero)))
-    // let t9: Term = .n(.eq(.var("x"), .var("y")))
-    let t0: Term = .n(.zero)
+    let t9: Term = .n(.eq(.var("x"), .var("y")))
 
     XCTAssertEqual(t1.eval(s: .innermost(.axiom)), .n(.zero))
     XCTAssertEqual(t2.eval(s: .innermost(.axiom)), .n(.zero))
@@ -74,8 +73,9 @@ final class TeriNatTests: XCTestCase {
     XCTAssertEqual(t6.eval(s: .innermost(.axiom)), .n(.var("x")))
     XCTAssertEqual(t7.eval(s: .innermost(.axiom)), .n(.add(.zero,.var("x"))))
     XCTAssertEqual(t8.eval(s: .innermost(.axiom)), .n(.add(.var("x"), .var("y"))))
+    XCTAssertEqual(t9.eval(s: .innermost(.axiom)), .b(.false))
     
-    print(t0.eval(s: .innermost(.axiom)))
+    // print(t9.eval(s: .innermost(.axiom)))
   }
 
   func testEqNat() {

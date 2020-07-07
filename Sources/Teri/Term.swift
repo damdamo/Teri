@@ -1,7 +1,11 @@
+/// Enum which groups all terms
+/// Give methods to evaluate a term with strategies
+///  Terms available: Nat / Boolean
 indirect enum Term: Equatable {
   case n(Nat)
   case b(Boolean)
 
+  // Try to find an axiom to rewrite the term
   func axiom() -> Term? {
     switch self {
     case .n(_):
@@ -11,6 +15,8 @@ indirect enum Term: Equatable {
     }
   }
 
+  // (s1)[t] = fail => (sequence(s1,s2))[t] = fail (where t is self)
+  // (s1)[t] = t' => (sequence(s1,s2))[t] = (s2)[t']
   func sequence(s1: Strategy, s2: Strategy) -> Term? {
     if let t1 = self.eval(s: s1) {
       if let t2 = t1.eval(s: s2) {
@@ -20,6 +26,8 @@ indirect enum Term: Equatable {
     return nil
   }
   
+  // (s1)[t] = t' => (choice(s1,s2))[t] = t' (where t is self)
+  // (s1)[t] = fail => (choice(s1,s2))[t] = (s2)[t]
   func choice(s1: Strategy, s2: Strategy) -> Term? {
     if let t1 = self.eval(s: s1) {
       return t1
@@ -29,17 +37,23 @@ indirect enum Term: Equatable {
     return nil
   }
   
+  // (s)[t1] = t1', ..., s[tn] = tn' => (All(s))[f(t1,...,tn)] = f(t1',...,tn')
+  // If there exists i, such that (s)[ti] = fail => (All(s))[f(t1,...,tn)] = fail
+  // (All(s))[cst] = cst
+  // Apply to the direct subterms the strategy s.
   func all(s: Strategy) -> Term? {
     switch self {
     case .n(_):
       return Nat.all(t: self, s: s)
     case .b(_):
       return Boolean.all(t: self, s: s)
-    default:
-      return nil
     }
   }
   
+  /// Evaluate a term using a given strategy
+  /// - Parameters:
+  ///   - s: The strategy to use
+  /// Returns: The result of the evaluate term with the given strategy
   func eval(s: Strategy) -> Term? {
     switch s {
     case .identity:
@@ -58,16 +72,10 @@ indirect enum Term: Equatable {
       return self.all(s: s1)
     case .innermost(let s1):
       return self.eval(s: .sequence(.all(.innermost(s1)), .try(.sequence(s1, .innermost(s1)))))
-//    case .bottomup(let s1):
-//      let newStrat: Strategy = .sequence(<#T##Strategy#>, <#T##Strategy#>)
-//      return eval(t: Term, s: )
     default:
       return nil
     }
   }
-    
-
-
 }
 
 extension Term: CustomStringConvertible {
