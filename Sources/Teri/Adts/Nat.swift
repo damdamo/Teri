@@ -22,23 +22,21 @@ indirect enum Nat: Equatable {
         if let r = addition(x, y) {
           return .n(r)
         }
-        return nil
       case .sub(let x, let y):
         if let r = subtraction(x, y) {
           return .n(r)
         }
-        return nil
       case .eq(let x, let y):
         if let r = equal(x, y) {
           return .b(r)
         }
-        return nil
       default:
         return nil
       }
     default:
       return nil
     }
+    return nil
   }
   
   static func all(t: Term, s: Strategy) -> Term? {
@@ -126,7 +124,6 @@ indirect enum Nat: Equatable {
     }
   }
 
-  // TODO: A MODIFIER
   static func equal(_ x: Nat, _ y: Nat) -> Boolean? {
     if x == y {
       return .true

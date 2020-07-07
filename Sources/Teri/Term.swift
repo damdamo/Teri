@@ -33,8 +33,8 @@ indirect enum Term: Equatable {
     switch self {
     case .n(_):
       return Nat.all(t: self, s: s)
-//    case .b(let x):
-//      return Boolean.all(t: self, s: s)
+    case .b(_):
+      return Boolean.all(t: self, s: s)
     default:
       return nil
     }
