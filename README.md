@@ -9,7 +9,7 @@ Strategies select the way of evaluate a term.
 
 You need to create a dependency in your project.
 Follow steps write [here](https://github.com/apple/swift-package-manager/blob/master/Documentation/Usage.md#defining-dependencies) to complete your *Package.swift* file.
-Now, you just need to import Teri in your swift file: *import Teri*
+Now, you just need to import Teri in your swift file: `import Teri`
 
 ## How to write Terms
 
