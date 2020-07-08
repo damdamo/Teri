@@ -15,5 +15,5 @@ public indirect enum Strategy {
   case bottomup(Strategy)
   case topdown(Strategy)
   case innermost(Strategy)
-  
+  case outermost(Strategy)
 }

@@ -72,6 +72,8 @@ public indirect enum Term: Equatable {
       return self.all(s: s1)
     case .innermost(let s1):
       return self.eval(s: .sequence(.all(.innermost(s1)), .try(.sequence(s1, .innermost(s1)))))
+    case .outermost(let s1):
+      return self.eval(s: .sequence(.try(.sequence(s1, .outermost(s1))), .all(.outermost(s1))))
     default:
       return nil
     }
