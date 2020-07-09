@@ -1,4 +1,4 @@
-extension Nat: Hashable {
+extension Nat {
   /// Anonymized variables in a term by a simple string number
   /// For instance, x + y becomes "0" + "1".
   /// It can be used to compare two differents terms with different variables names
@@ -31,31 +31,6 @@ extension Nat: Hashable {
     var varAnonymized: [String:String] = [:]
     return self.anonymizedRec(varAnonymized: &varAnonymized)
   }
-
-  public func hash(into hasher: inout Hasher) {
-    switch self {
-    case .zero:
-      hasher.combine(0)
-    case .var(let x):
-      hasher.combine(x)
-    case .succ(let x):
-      hasher.combine("succ")
-      hasher.combine(x.hashValue)
-    case .add(let x, let y):
-      hasher.combine("add")
-      hasher.combine(x.hashValue)
-      hasher.combine(y.hashValue)
-    case .sub(let x, let y):
-      hasher.combine("sub")
-      hasher.combine(x.hashValue)
-      hasher.combine(y.hashValue)
-    case .eq(let x, let y):
-      hasher.combine("eq")
-      hasher.combine(x.hashValue)
-      hasher.combine(y.hashValue)
-    }
-  }
-  
 }
 
 

@@ -91,7 +91,7 @@ extension Term: CustomStringConvertible {
   }
 }
 
-protocol PTerm {
+protocol PTerm: Equatable {
   /// Rewrite a term in another term using a rewriting rule.
   /// The rule cannot be specified, it chooses the first rule that can be applied.
   /// If no rules can be applied, return nil.

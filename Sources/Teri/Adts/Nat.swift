@@ -1,5 +1,5 @@
 /// Description of Naturals
-public indirect enum Nat: Equatable, PTerm {
+public indirect enum Nat: PTerm {
   
   case zero
   case succ(Nat)

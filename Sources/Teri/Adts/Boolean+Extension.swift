@@ -5,7 +5,7 @@
 //  Created by Damien Morard on 05.02.20.
 //
 
-extension Boolean: Hashable {
+extension Boolean {
 
   func anonymizedRec(varAnonymized: inout [String:String]) -> Boolean {
     switch self {
@@ -32,29 +32,6 @@ extension Boolean: Hashable {
     var varAnonymized: [String:String] = [:]
     return self.anonymizedRec(varAnonymized: &varAnonymized)
   }
-
-  public func hash(into hasher: inout Hasher) {
-    switch self {
-    case .true:
-      hasher.combine("true")
-    case .false:
-      hasher.combine("false")
-    case .var(let x):
-      hasher.combine(x)
-    case .not(let x):
-      hasher.combine("not")
-      hasher.combine(x.hashValue)
-    case .and(let x, let y):
-      hasher.combine("and")
-      hasher.combine(x.hashValue)
-      hasher.combine(y.hashValue)
-    case .or(let x, let y):
-      hasher.combine("or")
-      hasher.combine(x.hashValue)
-      hasher.combine(y.hashValue)
-    }
-  }
-  
 }
 
 
