@@ -9,6 +9,32 @@ Strategies select the way of evaluate a term.
 
 You need to create a dependency in your project.
 Follow steps write [here](https://github.com/apple/swift-package-manager/blob/master/Documentation/Usage.md#defining-dependencies) to complete your *Package.swift* file.
+
+Here an example of how to include Teri in your project:
+
+```Swift
+let package = Package(
+    name: "MyTest",
+    dependencies: [
+        // Dependencies declare other packages that this package depends on.
+        // .package(url: /* package url */, from: "1.0.0"),
+        .package(
+            url: "https://github.com/damdamo/Teri.git",
+            .branch("master")
+        )
+    ],
+    targets: [
+        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
+        // Targets can depend on other targets in this package, and on products in packages which this package depends on.
+        .target(
+            name: "MyTest",
+            dependencies: ["Teri"]),
+        .testTarget(
+            name: "MyTestTests",
+            dependencies: ["MyTest"]),
+    ]
+)
+```
 Now, you just need to import Teri in your swift file: `import Teri`
 
 ## How to write Terms
@@ -36,7 +62,7 @@ Here a list of examples that you can write with Teri:
 | Nat Example 3 | *add(succ(zero), x)* | `let t: Term = .n(.add(.succ(.zero), .var("x")))`|
 | Boolean Example 1 | *true*   | `let t: Term = .b(.true)`          |
 | Boolean Example 2 | *not(true)*| `let t: Term = .b(.not(.true))`|
-| Boolean Example 3 | *and(or(true, x), true)) | `let t: Term = .b(.and(.or(.true,.var("x")), .true))`|
+| Boolean Example 3 | *and(or(true, x), true))* | `let t: Term = .b(.and(.or(.true,.var("x")), .true))`|
 
 Thanks to the Swift type inference that gives you the possibility to write: `.n(.succ(.zero))` instead of `Term.n(Nat.succ(Nat.zero))`.
 
