@@ -5,7 +5,7 @@ extension Nat: Hashable {
   /// - Parameters:
   ///   - term: The term to anonymize
   ///   - varAnonymized: A dictionary which contains variables with its corresponding string number
-  /// Returns: The anonymized term
+  /// - Returns: The anonymized term
   func anonymizedRec(varAnonymized: inout [String:String]) -> Nat {
     switch self {
     case .zero:

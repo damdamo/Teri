@@ -90,3 +90,21 @@ extension Term: CustomStringConvertible {
     }
   }
 }
+
+protocol PTerm {
+  /// Rewrite a term in another term using a rewriting rule.
+  /// The rule cannot be specified, it chooses the first rule that can be applied.
+  /// If no rules can be applied, return nil.
+  /// - Parameters:
+  ///   - t: Apply a rule on the term t
+  /// - Returns: The rewriting term
+  static func rewriting(_ t: Term) -> Term?
+  /// Apply a strategy on direct subterms of a term.
+  /// For instance: succ(add(zero,zero), zero)
+  /// The strategy will be applied on "add(zero,zero)" and "zero".
+  /// - Parameters:
+  ///   - t: The term to work on
+  ///   - s: The strategy that will be applied on the direct subterms
+  /// - Returns: The term t after applies the strategy
+  static func all(t: Term, s: Strategy) -> Term?
+}

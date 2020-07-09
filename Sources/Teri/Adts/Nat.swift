@@ -1,5 +1,5 @@
 /// Description of Naturals
-public indirect enum Nat: Equatable {
+public indirect enum Nat: Equatable, PTerm {
   
   case zero
   case succ(Nat)
@@ -39,10 +39,8 @@ public indirect enum Nat: Equatable {
       switch n {
       case .zero:
         return .n(.zero)
-      
       case .var(let x):
         return .n(.var(x))
-        
       case .succ(let x):
         let t1 = Term.n(x).eval(s: s)
         switch t1 {
@@ -51,36 +49,30 @@ public indirect enum Nat: Equatable {
         default:
           return nil
         }
-      
       case .add(let x, let y):
         let t1 = Term.n(x).eval(s: s)
         let t2 = Term.n(y).eval(s: s)
         switch (t1, t2) {
         case (.n(let x1), .n(let x2)):
           return .n(.add(x1,x2))
-          
         default:
           return nil
         }
-        
       case .sub(let x, let y):
         let t1 = Term.n(x).eval(s: s)
         let t2 = Term.n(y).eval(s: s)
         switch (t1, t2) {
         case (.n(let x1), .n(let x2)):
           return .n(.sub(x1,x2))
-          
         default:
           return nil
         }
-        
       case .eq(let x, let y):
         let t1 = Term.n(x).eval(s: s)
         let t2 = Term.n(y).eval(s: s)
         switch (t1, t2) {
         case (.n(let x1), .n(let x2)):
           return .n(.eq(x1,x2))
-          
         default:
           return nil
         }

@@ -1,5 +1,5 @@
 /// Description of Booleans
-public indirect enum Boolean: Equatable {
+public indirect enum Boolean: Equatable, PTerm {
   case `true`
   case `false`
   case not(Boolean)
