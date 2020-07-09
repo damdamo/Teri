@@ -11,12 +11,6 @@ public indirect enum Boolean: PTerm {
     switch t {
     case .b(let st):
       switch st {
-//      case .true:
-//        return .b(.true)
-//      case .false:
-//        return .b(.false)
-//      case .var(let x):
-//        return .b(.var(x))
       case .not(let b):
         if let r = fNot(b) {
           return .b(r)
