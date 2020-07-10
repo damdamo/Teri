@@ -108,19 +108,22 @@ Another example with *add(add(zero,zero), add(zero,zero))*:
 Strategies can be combined as you wish.
 Here a list of all strategies which are implemented:
 (t is the term to evaluate)
-- *identity*: (Identity)[t] = t
-- *fail*: (Fail)[t] = fail
-- *axiom*:
-- *sequence*:
-- *choice*:
-- *all*:
-- *try*:
-- *innermost*:
-- *outermost*:
-
-Not finished yet !
-
-
+- **identity**: (Identity)[t] = t (returns the term)
+- **fail**: (Fail)[t] = fail
+- **axiom**: Rewrite the term with the first axiom that matches
+- **sequence**:
+  - (s1)[t] = fail => (Sequence(s1,s2))[t] = fail (If the first strategy fails, everything fails)
+  - (s1)[t] = t' => (Sequence(s1,s2))[t] = (s2)[t]
+- **choice**:
+  - (s1)[t] = t' => (Choice(s1,s2))[t] = t'
+  - (s1)[t] = fail => (Choice(s1,s2))[t] = (s2)[t] (If the first strategy fails, returns the result of the second)
+- **all**:
+  - (s)[t1] = t1', ..., (s)[tn] = tn' => (All(s))[f(t1,...,tn)] = f(t1',...,tn') (Rewrite direct subterms of f)
+  - ∃i, (s)[ti] = fail => (All(s))[f(t1,...,tn)] = fail (If there exists at least one subterm that fails with the strategy, the whole strategy fails)
+  - (All(s))[cst] = cst
+- **try**: Try(s) = Choice(s, Identity)
+- **innermost**: Innermost(s) = μx.Sequence(All(Innermost(x)), Try(Sequence(s,x))) (Strategy which consists to evaluate all subterms before to evaluate the outer term, and apply it recursively)
+- **outermost**: Outermost(s) = μx.Sequence(Try(Sequence(s,x)), All(Innermost(x))) (Same logic that *innermost* but goes from outside to inside)
 
 ### Done :
 
