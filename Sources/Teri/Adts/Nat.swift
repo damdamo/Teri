@@ -7,24 +7,19 @@ public indirect enum Nat: PTerm {
   case eq(Nat, Nat)
   case `var`(String)
   
-  public static func rewriting(_ t: Term) -> Term? {
-    switch t {
-    case .n(let st):
-      switch st {
-      case .add(let x, let y):
-        if let r = addition(x, y) {
-          return .n(r)
-        }
-      case .sub(let x, let y):
-        if let r = subtraction(x, y) {
-          return .n(r)
-        }
-      case .eq(let x, let y):
-        if let r = equal(x, y) {
-          return .b(r)
-        }
-      default:
-        return nil
+  public func rewriting() -> Term? {
+    switch self {
+    case .add(let x, let y):
+      if let r = x.addition(y) {
+        return .n(r)
+      }
+    case .sub(let x, let y):
+      if let r = x.subtraction(y) {
+        return .n(r)
+      }
+    case .eq(let x, let y):
+      if let r = x.equal(y) {
+        return .b(r)
       }
     default:
       return nil
@@ -32,57 +27,52 @@ public indirect enum Nat: PTerm {
     return nil
   }
   
-  static func all(t: Term, s: Strategy) -> Term? {
-    switch t {
-    case .n(let n):
-      switch n {
-      case .zero:
-        return .n(.zero)
-      case .var(let x):
-        return .n(.var(x))
-      case .succ(let x):
-        let t1 = Term.n(x).eval(s: s)
-        switch t1 {
-        case .n(let x1):
-          return .n(.succ(x1))
-        default:
-          return nil
-        }
-      case .add(let x, let y):
-        let t1 = Term.n(x).eval(s: s)
-        let t2 = Term.n(y).eval(s: s)
-        switch (t1, t2) {
-        case (.n(let x1), .n(let x2)):
-          return .n(.add(x1,x2))
-        default:
-          return nil
-        }
-      case .sub(let x, let y):
-        let t1 = Term.n(x).eval(s: s)
-        let t2 = Term.n(y).eval(s: s)
-        switch (t1, t2) {
-        case (.n(let x1), .n(let x2)):
-          return .n(.sub(x1,x2))
-        default:
-          return nil
-        }
-      case .eq(let x, let y):
-        let t1 = Term.n(x).eval(s: s)
-        let t2 = Term.n(y).eval(s: s)
-        switch (t1, t2) {
-        case (.n(let x1), .n(let x2)):
-          return .n(.eq(x1,x2))
-        default:
-          return nil
-        }
+  public func all(s: Strategy) -> Term? {
+    switch self {
+    case .zero:
+      return .n(.zero)
+    case .var(let x):
+      return .n(.var(x))
+    case .succ(let x):
+      let t1 = Term.n(x).eval(s: s)
+      switch t1 {
+      case .n(let x1):
+        return .n(.succ(x1))
+      default:
+        return nil
       }
-    default:
-      return nil
+    case .add(let x, let y):
+      let t1 = Term.n(x).eval(s: s)
+      let t2 = Term.n(y).eval(s: s)
+      switch (t1, t2) {
+      case (.n(let x1), .n(let x2)):
+        return .n(.add(x1,x2))
+      default:
+        return nil
+      }
+    case .sub(let x, let y):
+      let t1 = Term.n(x).eval(s: s)
+      let t2 = Term.n(y).eval(s: s)
+      switch (t1, t2) {
+      case (.n(let x1), .n(let x2)):
+        return .n(.sub(x1,x2))
+      default:
+        return nil
+      }
+    case .eq(let x, let y):
+      let t1 = Term.n(x).eval(s: s)
+      let t2 = Term.n(y).eval(s: s)
+      switch (t1, t2) {
+      case (.n(let x1), .n(let x2)):
+        return .n(.eq(x1,x2))
+      default:
+        return nil
+      }
     }
   }
   
-  static func addition(_ x: Nat, _ y: Nat) -> Nat? {
-    switch (x,y) {
+  func addition(_ x: Nat) -> Nat? {
+    switch (self,x) {
     case (let a, .zero):
       return a
     case (let a, .succ(let b)):
@@ -94,8 +84,8 @@ public indirect enum Nat: PTerm {
     }
   }
   
-  static func subtraction(_ x: Nat, _ y: Nat) -> Nat? {
-    switch(x,y) {
+  func subtraction(_ x: Nat) -> Nat? {
+    switch(self,x) {
     case (.zero, _):
       return .zero
     case (let a, .zero):
@@ -109,8 +99,8 @@ public indirect enum Nat: PTerm {
     }
   }
 
-  static func equal(_ x: Nat, _ y: Nat) -> Boolean? {
-    if x == y {
+  func equal(_ x: Nat) -> Boolean? {
+    if self == x {
       return .true
     } else {
       return .false

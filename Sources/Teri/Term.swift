@@ -1,17 +1,33 @@
 /// Enum which groups all terms
 /// Give methods to evaluate a term with strategies
 ///  Terms available: Nat / Boolean
-public indirect enum Term: Equatable {
+public indirect enum Term: PTerm {
+  
   case n(Nat)
   case b(Boolean)
+  // case list(List<Term>)
 
+  // Need to conform PTerm protocol
+  public func rewriting() -> Term? {
+    return self.axiom()
+  }
+  
+  // Need to conform PTerm protocol
+  public static func all(t: Term, s: Strategy) -> Term? {
+    return t.all(s: s)
+  }
+  
   // Try to find an axiom to rewrite the term
   func axiom() -> Term? {
     switch self {
-    case .n(_):
-      return Nat.rewriting(self)
-    case .b(_):
-      return Boolean.rewriting(self)
+    case .n(let n):
+      return n.rewriting()
+    case .b(let b):
+      return b.rewriting()
+//    case .list(let l):
+//      return l.rewriting()
+    default:
+      return nil
     }
   }
 
@@ -41,12 +57,14 @@ public indirect enum Term: Equatable {
   // If there exists i, such that (s)[ti] = fail => (All(s))[f(t1,...,tn)] = fail
   // (All(s))[cst] = cst
   // Apply to the direct subterms the strategy s.
-  func all(s: Strategy) -> Term? {
+  public func all(s: Strategy) -> Term? {
     switch self {
-    case .n(_):
-      return Nat.all(t: self, s: s)
-    case .b(_):
-      return Boolean.all(t: self, s: s)
+    case .n(let n):
+      return n.all(s: s)
+    case .b(let b):
+      return b.all(s: s)
+    default:
+      return nil
     }
   }
   
@@ -87,18 +105,20 @@ extension Term: CustomStringConvertible {
       return x.description
     case .b(let b):
       return b.description
+    default:
+      return ""
     }
   }
 }
 
-protocol PTerm: Equatable {
+public protocol PTerm: Equatable {
   /// Rewrite a term in another term using a rewriting rule.
   /// The rule cannot be specified, it chooses the first rule that can be applied.
   /// If no rules can be applied, return nil.
   /// - Parameters:
   ///   - t: Apply a rule on the term t
   /// - Returns: The rewriting term
-  static func rewriting(_ t: Term) -> Term?
+  func rewriting() -> Term?
   /// Apply a strategy on direct subterms of a term.
   /// For instance: succ(add(zero,zero), zero)
   /// The strategy will be applied on "add(zero,zero)" and "zero".
@@ -106,5 +126,5 @@ protocol PTerm: Equatable {
   ///   - t: The term to work on
   ///   - s: The strategy that will be applied on the direct subterms
   /// - Returns: The term t after applies the strategy
-  static func all(t: Term, s: Strategy) -> Term?
+  func all(s: Strategy) -> Term?
 }

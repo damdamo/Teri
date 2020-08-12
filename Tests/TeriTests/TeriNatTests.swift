@@ -80,8 +80,11 @@ final class TeriNatTests: XCTestCase {
     let t1: Nat = .var("x")
     let t2: Nat = .var("y")
     
-    XCTAssertEqual(Nat.equal(t1, t2), Boolean.false)
-    XCTAssertEqual(Nat.equal(t1.anonymized(), t2.anonymized()), Boolean.true)
+    XCTAssertEqual(t1.equal(t2), Boolean.false)
+    
+    let t1Anonymized = t1.anonymized()
+    let t2Anonymized = t2.anonymized()
+    XCTAssertEqual(t1Anonymized.equal(t2Anonymized), Boolean.true)
   }
   
   static var allTests = [
