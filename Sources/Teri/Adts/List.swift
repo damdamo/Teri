@@ -1,51 +1,24 @@
-/// Description of Naturals
-//public indirect enum List<T: PTerm>: PTerm {
-//  
-//  case empty
-//  case cons(T, List<T>)
-//  case insert(T, List<T>)
-//  case concat(List<T>, List<T>)
-//  case `var`(String)
-//  
-//  public static func rewriting(_ t: Term) -> Term? {
-//    return nil
-//  }
-//  
-//  public static func all(t: Term, s: Strategy) -> Term? {
-//    return nil
-//  }
+/// Lists
+//public indirect enum List {
+//   case empty
+//   case cons(Term, List)
+//   case insert(Term, List)
+//   case concat(List<T>, List<T>)
+//   case `var`(String)
 //  
 //  public func rewriting() -> Term? {
+////    switch self {
+////    case .insert(let t, let l):
+////      return .list(.cons(t, l))
+////    }
 //    return nil
-//  }
-  
-//  public static func rewriting(_ t: Term) -> Term? {
-//    switch t {
-//      case
-//    }
 //  }
 //  
-//  public static func all(t: Term, s: Strategy) -> Term? {
-//    
-//  }
-  
-  
-  
-//  public static func rewriting(_ t: Term) -> Term? {
-//    switch t {
-//    case .n(let st):
-//
-//    }
+//  public func all(s: Strategy) -> Term? {
 //    return nil
 //  }
+//  
+//  
 //
-//  static func all(t: Term, s: Strategy) -> Term? {
-//    switch t {
-//    case .n(let n):
-//
-//    default:
-//      return nil
-//    }
-//  }
-
-// }
+//  
+//}
