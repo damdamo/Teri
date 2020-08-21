@@ -1,104 +1,89 @@
 /// Description of Booleans
-public indirect enum Boolean: PTerm {
+public indirect enum Boolean: Term, Equatable {
   case `true`
   case `false`
   case not(Boolean)
   case or(Boolean, Boolean)
   case and(Boolean, Boolean)
   case `var`(String)
-
+  
   public func rewriting() -> Term? {
     switch self {
-    case .not(let b):
-      if let r = b.fNot() {
-        return .b(r)
-      }
-    case .or(let b1, let b2):
-      if let r = b1.fOr(b2) {
-        return .b(r)
-      }
-    case .and(let b1, let b2):
-      if let r = b1.fAnd(b2) {
-        return .b(r)
-      }
+    case .not(_):
+      return self.applyNot()
+    case .and(_, _):
+      return self.applyAnd()
+    case .or(_, _):
+      return self.applyOr()
     default:
       return nil
+    }
+  }
+  
+  public func applyNot() -> Boolean? {
+    switch self {
+    case .not(.false):
+      return .true
+    case .not(.true):
+      return .false
+    case .not(.not(let b)):
+      return b
+    default:
+      return nil
+    }
+  }
+
+  func applyOr() -> Boolean? {
+    switch self {
+    case .or(.true, _):
+      return .true
+    case .or(_,.true):
+      return .true
+    case .or(.false, .false):
+      return .false
+    default:
+      return nil
+    }
+  }
+  
+  func applyAnd() -> Boolean? {
+    switch self {
+    case .and(.false, _):
+      return .false
+    case .and(_,.false):
+      return .false
+    case .and(.true, .true):
+      return .true
+    default:
+      return nil
+    }
+  }
+  
+  func all(t: Boolean, s: Strategy) -> Term? {
+    switch t {
+    case .true:
+      return Boolean.true
+    case .false:
+      return Boolean.false
+    case .var(let b):
+      return Boolean.var(b)
+    case .not(let b):
+      if let bEval = Strategy.eval(t: b, s: s) as? Boolean {
+        return Boolean.not(bEval)
+      }
+    case .or(let b1, let b2):
+      if let b1Eval = Strategy.eval(t: b1, s: s) as? Boolean {
+        if let b2Eval = Strategy.eval(t: b2, s: s) as? Boolean {
+          return Boolean.or(b1Eval, b2Eval)
+        }
+      }
+    case .and(let b1, let b2):
+      if let b1Eval = Strategy.eval(t: b1, s: s) as? Boolean {
+        if let b2Eval = Strategy.eval(t: b2, s: s) as? Boolean {
+          return Boolean.and(b1Eval, b2Eval)
+        }
+      }
     }
     return nil
   }
-  
-  public func all(s: Strategy) -> Term? {
-    switch self {
-    case .true:
-      return .b(.true)
-      case .false:
-        return .b(.false)
-    case .var(let b):
-      return .b(.var(b))
-    case .not(let b):
-      let t1 = Term.b(b).eval(s: s)
-      switch t1 {
-      case .b(let bEval):
-        return .b(.not(bEval))
-      default:
-        return nil
-      }
-    case .and(let b1, let b2):
-      let t1 = Term.b(b1).eval(s: s)
-      let t2 = Term.b(b2).eval(s: s)
-      switch (t1, t2) {
-      case (.b(let b1Eval), .b(let b2Eval)):
-        return .b(.and(b1Eval, b2Eval))
-      default:
-        return nil
-      }
-    case .or(let b1, let b2):
-      let t1 = Term.b(b1).eval(s: s)
-      let t2 = Term.b(b2).eval(s: s)
-      switch (t1, t2) {
-      case (.b(let b1Eval), .b(let b2Eval)):
-        return .b(.or(b1Eval, b2Eval))
-      default:
-        return nil
-      }
-    }
-  }
-  
-  func fNot() -> Boolean? {
-    switch self {
-    case .false:
-      return .true
-    case .true:
-      return .false
-    default:
-      return nil
-    }
-  }
-  
-  func fOr(_ b: Boolean) -> Boolean? {
-    switch (self,b) {
-    case (.true, _):
-      return .true
-    case (_,.true):
-      return .true
-    case (.false, .false):
-      return .false
-    default:
-      return nil
-    }
-  }
-  
-  func fAnd(_ b: Boolean) -> Boolean? {
-    switch (self,b) {
-    case (.false, _):
-      return .false
-    case (_,.false):
-      return .false
-    case (.true, .true):
-      return .true
-    default:
-      return nil
-    }
-  }
-
 }
