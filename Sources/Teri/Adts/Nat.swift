@@ -10,17 +10,17 @@ public indirect enum Nat: Term, Equatable {
   public func rewriting() -> Term? {
     switch self {
     case .add(_, _):
-      return self.applyAdd()
+      return self.ruleAdd()
     case .sub(_, _):
-      return self.applySub()
+      return self.ruleSub()
     case .eq(_, _):
-      return self.applyEq()
+      return self.ruleEq()
     default:
       return nil
     }
   }
   
-  public func applyAdd() -> Nat? {
+  public func ruleAdd() -> Nat? {
     switch self {
     case .add(let a, .zero):
       return a
@@ -31,7 +31,7 @@ public indirect enum Nat: Term, Equatable {
     }
   }
   
-  public func applySub() -> Nat? {
+  public func ruleSub() -> Nat? {
     switch self {
     case .sub(.zero, _):
       return .zero
@@ -44,7 +44,7 @@ public indirect enum Nat: Term, Equatable {
     }
   }
 
-  public func applyEq() -> Boolean? {
+  public func ruleEq() -> Boolean? {
     switch self {
     case .eq(let x, let y):
       if x == y {

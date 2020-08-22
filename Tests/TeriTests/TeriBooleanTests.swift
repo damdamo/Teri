@@ -3,30 +3,20 @@ import XCTest
 
 final class TeriBooleanTests: XCTestCase {
   
-//  func testInnermost() {
-//    let t1: Term = .b(.true)
-//    let t2: Term = .b(.not(.true))
-//    let t3: Term = .b(.and(.or(.not(.true), .var("x")), .false))
-//    let t4: Term = .b(.and(.var("x"), .var("y")))
-//
-//    XCTAssertEqual(t1.eval(s: .innermost(.axiom)), Term.b(.true))
-//    XCTAssertEqual(t2.eval(s: .innermost(.axiom)), Term.b(.false))
-//    XCTAssertEqual(t3.eval(s: .innermost(.axiom)), Term.b(.false))
-//    XCTAssertEqual(t4.eval(s: .innermost(.axiom)), t4)
-//
-//  }
- 
-  func testBoolean() {
-    
-    let t1: Boolean = .not(.true)
-    
-    print(t1.applyNot())
-    
-    print(Strategy.eval(t: t1, s: .axiom))
+  func testInnermost() {
+    let t1: Boolean = Boolean.true
+    let t2: Boolean = Boolean.not(.true)
+    let t3: Boolean = Boolean.and(.or(.not(.true), .var("x")), .false)
+    let t4: Boolean = Boolean.and(.var("x"), .var("y"))
+
+    XCTAssertEqual(Strategy.eval(t: t1, s: .innermost(.axiom)) as! Boolean, Boolean.true)
+    XCTAssertEqual(Strategy.eval(t: t2, s: .innermost(.axiom)) as! Boolean, Boolean.false)
+    XCTAssertEqual(Strategy.eval(t: t3, s: .innermost(.axiom)) as! Boolean, Boolean.false)
+    XCTAssertEqual(Strategy.eval(t: t4, s: .innermost(.axiom)) as! Boolean, t4)
+
   }
   
   static var allTests = [
-      //("testInnermost", testInnermost),
-    ("testBoolean", testBoolean),
+      ("testInnermost", testInnermost),
   ]
 }

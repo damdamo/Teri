@@ -10,17 +10,17 @@ public indirect enum Boolean: Term, Equatable {
   public func rewriting() -> Term? {
     switch self {
     case .not(_):
-      return self.applyNot()
+      return self.ruleNot()
     case .and(_, _):
-      return self.applyAnd()
+      return self.ruleAnd()
     case .or(_, _):
-      return self.applyOr()
+      return self.ruleOr()
     default:
       return nil
     }
   }
   
-  public func applyNot() -> Boolean? {
+  public func ruleNot() -> Boolean? {
     switch self {
     case .not(.false):
       return .true
@@ -33,7 +33,7 @@ public indirect enum Boolean: Term, Equatable {
     }
   }
 
-  func applyOr() -> Boolean? {
+  func ruleOr() -> Boolean? {
     switch self {
     case .or(.true, _):
       return .true
@@ -46,7 +46,7 @@ public indirect enum Boolean: Term, Equatable {
     }
   }
   
-  func applyAnd() -> Boolean? {
+  func ruleAnd() -> Boolean? {
     switch self {
     case .and(.false, _):
       return .false
