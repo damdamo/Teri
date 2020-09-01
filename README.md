@@ -37,30 +37,31 @@ Now, you just need to import Teri in your swift file: `import Teri`
 
 Terms which are already implemented with following operations are:
 
-|         | Prefix | Generators    | Operations                  |
-|---------|:------:|:-------------:|:----------------------------|
-| Nat     | n      |*zero, succ*  |  *add(Nat,Nat), sub(Nat,Nat), eq(Nat,Nat)* |
-| Boolean | b      | *true, false* | *not(Boolean), and(Boolean,Boolean), or(Boolean, Boolean)* |
+|         | Generators    | Operations                  |
+|---------|:-------------:|:----------------------------|
+| Nat     |*zero, succ*  |  *add(Nat,Nat), sub(Nat,Nat), eq(Nat,Nat)* |
+| Boolean | *true, false* | *not(Boolean), and(Boolean,Boolean), or(Boolean, Boolean)* |
+| List\<T>| *empty, cons(T, List\<T>)* | *insert(T, List\<T>), concat(List\<T>, List\<T>)*|
 
 Terms are implemented using Swift Enums.
 The aim is to simplify the way to write terms.
-Prefix are used to write a term.
-If you write a Nat term, you have to write:  
-`let t: Term = .n(...)`  
-Same for Boolean term with *b* (Care, Boolean is not Bool type in Swift) !
 
 Here a list of examples that you can write with Teri:
 
 |                | Term  | Translate in Teri                   |
 |----------------|:------|:-----------------------------------|
-| Nat Example 1 | *zero*   | `let t: Term = .n(.zero)`          |
-| Nat Example 2 | *succ(zero)*| `let t: Term = .n(.succ(.zero))`|
-| Nat Example 3 | *add(succ(zero), x)* | `let t: Term = .n(.add(.succ(.zero), .var("x")))`|
-| Boolean Example 1 | *true*   | `let t: Term = .b(.true)`          |
-| Boolean Example 2 | *not(true)*| `let t: Term = .b(.not(.true))`|
-| Boolean Example 3 | *and(or(true, x), true))* | `let t: Term = .b(.and(.or(.true,.var("x")), .true))`|
+| Nat Example 1 | *zero*   | `let t: Nat = .zero`          |
+| Nat Example 2 | *succ(zero)*| `let t: Nat = .succ(.zero)`|
+| Nat Example 3 | *add(succ(zero), x)* | `let t: Nat = .add(.succ(.zero), .var("x"))`|
+| Boolean Example 1 | *true*   | `let t: Boolean = .true`          |
+| Boolean Example 2 | *not(true)*| `let t: Boolean = .not(.true)`|
+| Boolean Example 3 | *and(or(true, x), true))* | `let t: Boolean = .and(.or(.true,.var("x")), .true)`|
+| List Example 1 | *empty*   | `let t: List<Nat> = .empty`|
+| List Example 2 | *insert(true, cons(false, empty))*   | `let t: List<Boolean> = .insert(.true, .cons(.false, .empty))`|
+| List Example 3 | *concat(cons(0, empty), cons(add(0,0), empty))*   | `let t: List<Nat> = .concat(.cons(.zero, .empty), .cons(.add(.zero, .zero), .empty))`|
 
-Thanks to the Swift type inference that gives you the possibility to write: `.n(.succ(.zero))` instead of `Term.n(Nat.succ(Nat.zero))`.
+Notice that the type `List<T>` is generic, meaning that you can choose any type which is a term.
+Thanks to the Swift type inference that gives you the possibility to write: `.succ(.zero)` instead of `Nat.succ(Nat.zero)`.
 
 Teri adds the possibility to manipulate variables, which are written as `.var("nameOfTheVariable")`, for all types.
 The name of the variable is a simple String in Swift.
@@ -69,12 +70,13 @@ If you want to see more examples, you can go directly inside: `Tests/TeriTests/T
 
 To help the final readability, the `CustomStringConvertible` protocol has been added and completed for all types, to have a pretty print for terms.
 Try to print terms to see the result !
-For example: `print(Term.b(.and(.or(.true,.var("x")), .true)))
+For example: `print(Boolean.and(.or(.true,.var("x")), .true))
 ` returns `(true ∨ x) ∧ true`.
 
 ## How to evaluate Terms ?
 
 Evaluate terms needs to select an order to reduce all of them.
+In Teri, you chose a strategy to apply to evaluate a term.
 For instance, let suppose the term: *add(add(x,zero),zero)*.
 Should we reduce from inside (*innermost*) or outside (*outermost*) ?
 - *Innermost*: *add(sub(x,zero),zero)* --> *add(x,zero)* --> *x*
@@ -82,22 +84,21 @@ Should we reduce from inside (*innermost*) or outside (*outermost*) ?
 
 In Teri:
 ```Swift
-let t: Term = .n(.add(.add(.var("x"), .zero), .zero))
+let t: Nat = .add(.add(.var("x"), .zero), .zero)
 // Innermost strategy:
 // Print: Optional(x)
-print(t.eval(s: .innermost(.axiom)))
+print(Strategy.eval(t: t, s: .innermost(.axiom))!)
 // Outermost strategy
 // Print: Optional(x)
-print(t.eval(s: .outermost(.axiom)))
+print(Strategy.eval(t: t, s: .outermost(.axiom))!)
 ```
 
-Strategies can fail, for this reason the return result is *Optional*.
-If it fails, the result value is *nil*.
+Strategies can fail, for this reason the return result is an *Optional*.
+If you are sure that the result is not *nil*, you can force to unwrap it using *!*.
 
-In this sort example, the final answer is the same.
-However, it will not be the case everytime.
+The previous example gives the same answer for both cases, but this will not be the case each time.
 
-Another example with *add(add(zero,zero), add(zero,zero))*:
+For example, *add(add(zero,zero), add(zero,zero))*:
 - *Innermost*: *add(add(zero,zero), add(zero,zero))* --> *zero*
 - *Outermost*: *add(add(zero,zero), add(zero,zero))* --> *add(zero,zero)*
 
@@ -120,20 +121,3 @@ Here a list of all strategies which are implemented:
 - **try**: Try(s) = Choice(s, Identity)
 - **innermost**: Innermost(s) = μx.Sequence(All(Innermost(x)), Try(Sequence(s,x))) (Strategy which consists to evaluate all subterms before to evaluate the outer term, and apply it recursively)
 - **outermost**: Outermost(s) = μx.Sequence(Try(Sequence(s,x)), All(Innermost(x))) (Same logic that *innermost* but goes from outside to inside)
-
-### Done :
-
-- ADTs:
-  - Nat
-  - Boolean
-- Rewriting rules
-- Rewriting strategies
-- Basics unit test cases
-
-### TODO List :
-
-- Equational proof/theory:
-  - Reflexivity
-  - Symmetry
-  - Transitivity
-  - ...
