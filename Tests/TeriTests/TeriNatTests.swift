@@ -90,7 +90,7 @@ final class TeriNatTests: XCTestCase {
   
   func testSubstitution(){
     let t1: Nat = .add(.var("x"), .var("y"))
-    XCTAssertEqual(t1.substitution(dicVal: ["x": .succ(.zero), "y": .sub(.zero, .zero)]), Nat.add(.succ(.zero), .sub(.zero, .zero)))
+    XCTAssertEqual(t1.substitution(dicVal: ["x": Nat.succ(.zero), "y": Nat.sub(.zero, .zero)]) as! Nat, Nat.add(.succ(.zero), .sub(.zero, .zero)))
   }
 
   static var allTests = [

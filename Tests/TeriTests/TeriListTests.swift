@@ -42,10 +42,20 @@ final class TeriListTests: XCTestCase {
 
   }
   
+  func testSubstitution(){
+    let t1: List<Nat> = .concat(.cons(.var("x"), .empty), .cons(.zero, .var("l")))
+    
+    XCTAssertEqual(
+      t1.substitution(dicVal: ["x": Nat.zero, "l": List<Nat>.empty]) as! List<Nat>,
+      List<Nat>.concat(.cons(.zero, .empty), .cons(.zero, .empty))
+    )
+  }
+  
   static var allTests = [
       ("testEqList", testEqList),
       ("testPrintList", testPrintList),
       ("testAxiom", testAxiom),
-      ("testInnermost", testInnermost)
+      ("testInnermost", testInnermost),
+      ("testSubstitution", testSubstitution),
   ]
 }

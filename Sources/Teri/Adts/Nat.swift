@@ -57,34 +57,46 @@ public indirect enum Nat: Term, Equatable {
     }
   }
   
-  public func substitution(dicVal: [String: Nat]) -> Nat {
+  public func substitution(dicVal: [String: Term]) -> Term? {
     switch self {
     case .zero:
-      return .zero
+      return Nat.zero
     case .var(let x):
       if let s = dicVal[x] {
         return s
       } else {
-        return .var(x)
+        return Nat.var(x)
       }
     case .succ(let x):
-      return .succ(x.substitution(dicVal: dicVal))
+      if let xSubs = x.substitution(dicVal: dicVal) as? Nat {
+        return Nat.succ(xSubs)
+      }
     case .add(let x, let y):
-      return .add(
-        x.substitution(dicVal: dicVal),
-        y.substitution(dicVal: dicVal)
-      )
+      if let xSubs = x.substitution(dicVal: dicVal) as? Nat,
+        let ySubs = y.substitution(dicVal: dicVal) as? Nat {
+        return Nat.add(
+          xSubs,
+          ySubs
+        )
+      }
     case .sub(let x, let y):
-      return .add(
-        x.substitution(dicVal: dicVal),
-        y.substitution(dicVal: dicVal)
-      )
+      if let xSubs = x.substitution(dicVal: dicVal) as? Nat,
+        let ySubs = y.substitution(dicVal: dicVal) as? Nat {
+        return Nat.sub(
+          xSubs,
+          ySubs
+        )
+      }
     case .eq(let x, let y):
-      return .eq(
-        x.substitution(dicVal: dicVal),
-        y.substitution(dicVal: dicVal)
-      )
+      if let xSubs = x.substitution(dicVal: dicVal) as? Nat,
+        let ySubs = y.substitution(dicVal: dicVal) as? Nat {
+        return Nat.eq(
+          xSubs,
+          ySubs
+        )
+      }
     }
+    return nil
   }
   
   public func all(s: Strategy) -> Term? {

@@ -38,6 +38,46 @@ public indirect enum List<T: Term & Equatable>: Term {
     }
   }
   
+  public func substitution(dicVal: [String: Term]) -> Term? {
+    switch self {
+    case .empty:
+      return List<T>.empty
+    case .var(let x):
+      if let s = dicVal[x] as? List<T> {
+        return s
+      } else if let s = dicVal[x] as? T {
+        return s
+      } else {
+        return List<T>.var(x)
+      }
+    case .cons(let t, let l):
+      if let tSubs = t.substitution(dicVal: dicVal) as? T,
+        let lSubs = l.substitution(dicVal: dicVal) as? List<T> {
+        return List<T>.cons(
+          tSubs,
+          lSubs
+        )
+      }
+    case .insert(let t, let l):
+      if let tSubs = t.substitution(dicVal: dicVal) as? T,
+        let lSubs = l.substitution(dicVal: dicVal) as? List<T> {
+        return List<T>.insert(
+          tSubs,
+          lSubs
+        )
+      }
+    case .concat(let l1, let l2):
+      if let l1Subs = l1.substitution(dicVal: dicVal) as? List<T>,
+        let l2Subs = l2.substitution(dicVal: dicVal) as? List<T> {
+        return List<T>.concat(
+          l1Subs,
+          l2Subs
+        )
+      }
+    }
+    return nil
+  }
+  
   public func all(s: Strategy) -> Term? {
     switch self {
     case .empty:

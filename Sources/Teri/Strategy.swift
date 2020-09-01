@@ -49,8 +49,9 @@ public indirect enum Strategy {
 
   /// Evaluate a term using a given strategy
   /// - Parameters:
+  ///   - t: The term to evaluate
   ///   - s: The strategy to use
-  /// Returns: The result of the evaluate term with the given strategy
+  /// Returns: The result of the evaluate term with the given strategy. If it fails, it returns nil.
   static public func eval(t: Term, s: Strategy) -> Term? {
     switch s {
     case .identity:
