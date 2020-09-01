@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/damdamo/Teri.svg?branch=master)](https://travis-ci.org/damdamo/Teri)
+
 # Teri (TErm RewrIting)
 
 Teri is a library to term rewriting using strategies.
