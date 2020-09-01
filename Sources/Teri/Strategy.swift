@@ -16,20 +16,6 @@ public indirect enum Strategy {
   case topdown(Strategy)
   case innermost(Strategy)
   case outermost(Strategy)
-  
-  // Try to find an axiom to rewrite the term
-  static func axiom(t: Term) -> Term? {
-    switch t {
-    case let n as Nat:
-      return n.rewriting()
-    case let b as Boolean:
-      return b.rewriting()
-//    case .list(let l):
-//      return l.rewriting()
-    default:
-      return nil
-    }
-  }
 
   // (s1)[t] = fail => (sequence(s1,s2))[t] = fail (where t is self)
   // (s1)[t] = t' => (sequence(s1,s2))[t] = (s2)[t']
@@ -58,14 +44,7 @@ public indirect enum Strategy {
   // (All(s))[cst] = cst
   // Apply to the direct subterms the strategy s.
   static public func all(t: Term, s: Strategy) -> Term? {
-    switch t {
-    case let n as Nat:
-      return n.all(t: t as! Nat, s: s)
-    case let b as Boolean:
-      return b.all(t: t as! Boolean, s: s)
-    default:
-      return nil
-    }
+    return t.all(s: s)
   }
 
   /// Evaluate a term using a given strategy
@@ -79,7 +58,7 @@ public indirect enum Strategy {
     case .fail:
       return nil
     case .axiom:
-      return axiom(t: t)
+      return t.rewriting()
     case .sequence(let s1, let s2):
       return sequence(t: t, s1: s1, s2: s2)
     case .choice(let s1, let s2):

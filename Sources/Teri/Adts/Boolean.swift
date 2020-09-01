@@ -59,8 +59,8 @@ public indirect enum Boolean: Term, Equatable {
     }
   }
   
-  func all(t: Boolean, s: Strategy) -> Term? {
-    switch t {
+  public func all(s: Strategy) -> Term? {
+    switch self {
     case .true:
       return Boolean.true
     case .false:

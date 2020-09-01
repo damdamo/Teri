@@ -5,7 +5,7 @@ final class TeriNatTests: XCTestCase {
   
   func testNat(){
     let t1: Nat = .add(.var("x"), .succ(.zero))
-    print(t1.applyAdd())
+    // print(t1.ruleAdd())
   }
   
   func testAxiom() {

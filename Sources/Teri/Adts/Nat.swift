@@ -87,8 +87,8 @@ public indirect enum Nat: Term, Equatable {
     }
   }
   
-  func all(t: Nat, s: Strategy) -> Term? {
-    switch t {
+  public func all(s: Strategy) -> Term? {
+    switch self {
     case .zero:
       return Nat.zero
     case .var(let x):
