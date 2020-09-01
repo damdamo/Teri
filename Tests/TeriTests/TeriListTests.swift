@@ -29,15 +29,14 @@ final class TeriListTests: XCTestCase {
   }
   
   func testInnermost() {
+        
+    let t1: List<Nat> = .concat(.cons(.add(.succ(.zero), .zero), .empty), .cons(.sub(.succ(.zero), .zero), .empty))
+    let t2: List<Boolean> = .insert(.not(.and(.true, .false)), .cons(.true, .empty))
+    let t3: List<Nat> = .concat(.insert(.var("x"), .empty), .empty)
     
-    let t1: List<Nat> = .concat(.cons(.zero, .empty), .cons(.zero, .empty))
-    
-    // let t: List<Nat> = .concat(.cons(.add(.succ(.zero), .zero), .empty), .cons(.sub(.succ(.zero), .zero), .empty))
-    
-    print(Strategy.eval(t: t1, s: .innermost(.axiom)))
-    
-    // XCTAssertEqual(Strategy.eval(t: t1, s: .innermost(.axiom)) as! List<Nat>, List<Nat>.cons(.succ(.zero), .cons(.succ(.zero), .empty)))
-
+    XCTAssertEqual(Strategy.eval(t: t1, s: .innermost(.axiom)) as! List<Nat>, List<Nat>.cons(.succ(.zero), .cons(.succ(.zero), .empty)))
+    XCTAssertEqual(Strategy.eval(t: t2, s: .innermost(.axiom)) as! List<Boolean>, List<Boolean>.cons(.true, .cons(.true, .empty)))
+    XCTAssertEqual(Strategy.eval(t: t3, s: .innermost(.axiom)) as! List<Nat>, List<Nat>.cons(.var("x"), .empty))
     
   }
   
@@ -45,5 +44,6 @@ final class TeriListTests: XCTestCase {
       ("testEqList", testEqList),
       ("testPrintList", testPrintList),
       ("testAxiom", testAxiom),
+      ("testInnermost", testInnermost)
   ]
 }
