@@ -50,7 +50,7 @@ final class TeriNatTests: XCTestCase {
     XCTAssertEqual(Strategy.eval(t: t1, s: .all(.axiom)) as! Nat, Nat.add(.zero,.zero))
     // all(axiom): eval(0) -> 0
     XCTAssertEqual(Strategy.eval(t: t2, s: .all(.axiom)) as! Nat, Nat.zero)
-    // XCTAssertNil(Strategy.eval(t: t3, s: .all(.axiom)), nil)
+    XCTAssertNil(Strategy.eval(t: t3, s: .all(.axiom)))
   }
 
   func testInnermost() {
