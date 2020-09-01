@@ -16,6 +16,11 @@ final class TeriBooleanTests: XCTestCase {
 
   }
   
+  func testSubstitution(){
+    let t1: Boolean = .and(.not(.var("x")), .var("y"))
+    XCTAssertEqual(t1.substitution(dicVal: ["x": .true, "y": .false]), Boolean.and(.not(.true), .false))
+  }
+  
   static var allTests = [
       ("testInnermost", testInnermost),
   ]

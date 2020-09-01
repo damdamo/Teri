@@ -33,11 +33,13 @@ final class TeriListTests: XCTestCase {
     let t1: List<Nat> = .concat(.cons(.add(.succ(.zero), .zero), .empty), .cons(.sub(.succ(.zero), .zero), .empty))
     let t2: List<Boolean> = .insert(.not(.and(.true, .false)), .cons(.true, .empty))
     let t3: List<Nat> = .concat(.insert(.var("x"), .empty), .empty)
-    
+    let t4: List<List<Nat>> = .cons(.cons(.add(.succ(.zero), .zero), .empty), .empty)
+
     XCTAssertEqual(Strategy.eval(t: t1, s: .innermost(.axiom)) as! List<Nat>, List<Nat>.cons(.succ(.zero), .cons(.succ(.zero), .empty)))
     XCTAssertEqual(Strategy.eval(t: t2, s: .innermost(.axiom)) as! List<Boolean>, List<Boolean>.cons(.true, .cons(.true, .empty)))
     XCTAssertEqual(Strategy.eval(t: t3, s: .innermost(.axiom)) as! List<Nat>, List<Nat>.cons(.var("x"), .empty))
-    
+    XCTAssertEqual(Strategy.eval(t: t4, s: .innermost(.axiom)) as! List<List<Nat>>, List<List<Nat>>.cons(.cons(.succ(.zero), .empty), .empty))
+
   }
   
   static var allTests = [

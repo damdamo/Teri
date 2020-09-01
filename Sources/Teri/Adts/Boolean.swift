@@ -59,6 +59,33 @@ public indirect enum Boolean: Term, Equatable {
     }
   }
   
+  public func substitution(dicVal: [String: Boolean]) -> Boolean {
+    switch self {
+    case .true:
+      return .true
+    case .false:
+      return .false
+    case .var(let x):
+      if let s = dicVal[x] {
+        return s
+      } else {
+        return .var(x)
+      }
+    case .not(let x):
+      return .not(x.substitution(dicVal: dicVal))
+    case .and(let x, let y):
+      return .and(
+        x.substitution(dicVal: dicVal),
+        y.substitution(dicVal: dicVal)
+      )
+    case .or(let x, let y):
+      return .or(
+        x.substitution(dicVal: dicVal),
+        y.substitution(dicVal: dicVal)
+      )
+    }
+  }
+  
   public func all(s: Strategy) -> Term? {
     switch self {
     case .true:

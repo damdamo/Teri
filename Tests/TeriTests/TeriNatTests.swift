@@ -3,11 +3,6 @@ import XCTest
 
 final class TeriNatTests: XCTestCase {
   
-  func testNat(){
-    let t1: Nat = .add(.var("x"), .succ(.zero))
-    // print(t1.ruleAdd())
-  }
-  
   func testAxiom() {
     let t1: Term = Nat.succ(.zero)
     let t2: Term = Nat.add(.succ(.zero), .zero)
@@ -81,16 +76,21 @@ final class TeriNatTests: XCTestCase {
     XCTAssertEqual(Strategy.eval(t: t9, s: .innermost(.axiom)) as! Boolean, Boolean.false)
   }
 
-  func testEqNat() {
-    let t1: Nat = .eq(.var("x"), .var("y"))
-    XCTAssertEqual(t1.rewriting() as! Boolean, Boolean.false)
-
-    let t2: Nat = .var("x")
-    let t3: Nat = .var("y")
-    let t2Anonymized = t2.anonymized()
-    let t3Anonymized = t3.anonymized()
-    let t4: Nat = .eq(t2Anonymized, t3Anonymized)
-    XCTAssertEqual(t4.rewriting() as! Boolean, Boolean.true)
+//  func testEqNat() {
+//    let t1: Nat = .eq(.var("x"), .var("y"))
+//    XCTAssertEqual(t1.rewriting() as! Boolean, Boolean.false)
+//
+//    let t2: Nat = .var("x")
+//    let t3: Nat = .var("y")
+//    let t2Anonymized = t2.anonymized()
+//    let t3Anonymized = t3.anonymized()
+//    let t4: Nat = .eq(t2Anonymized, t3Anonymized)
+//    XCTAssertEqual(t4.rewriting() as! Boolean, Boolean.true)
+//  }
+  
+  func testSubstitution(){
+    let t1: Nat = .add(.var("x"), .var("y"))
+    XCTAssertEqual(t1.substitution(dicVal: ["x": .succ(.zero), "y": .sub(.zero, .zero)]), Nat.add(.succ(.zero), .sub(.zero, .zero)))
   }
 
   static var allTests = [
@@ -100,7 +100,8 @@ final class TeriNatTests: XCTestCase {
     ("testTry", testTry),
     ("testAll", testAll),
     ("testInnermost", testInnermost),
-    ("testEqNat", testEqNat),
+    // ("testEqNat", testEqNat),
+    ("testSubstitution", testSubstitution)
   ]
 
 }

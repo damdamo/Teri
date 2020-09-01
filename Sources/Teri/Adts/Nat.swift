@@ -57,32 +57,32 @@ public indirect enum Nat: Term, Equatable {
     }
   }
   
-  public func replace(substitution: [String: Nat]) -> Nat {
+  public func substitution(dicVal: [String: Nat]) -> Nat {
     switch self {
     case .zero:
       return .zero
     case .var(let x):
-      if let s = substitution[x] {
+      if let s = dicVal[x] {
         return s
       } else {
         return .var(x)
       }
     case .succ(let x):
-      return .succ(x.replace(substitution: substitution))
+      return .succ(x.substitution(dicVal: dicVal))
     case .add(let x, let y):
       return .add(
-        x.replace(substitution: substitution),
-        y.replace(substitution: substitution)
+        x.substitution(dicVal: dicVal),
+        y.substitution(dicVal: dicVal)
       )
     case .sub(let x, let y):
       return .add(
-        x.replace(substitution: substitution),
-        y.replace(substitution: substitution)
+        x.substitution(dicVal: dicVal),
+        y.substitution(dicVal: dicVal)
       )
     case .eq(let x, let y):
       return .eq(
-        x.replace(substitution: substitution),
-        y.replace(substitution: substitution)
+        x.substitution(dicVal: dicVal),
+        y.substitution(dicVal: dicVal)
       )
     }
   }

@@ -41,5 +41,4 @@ extension List: CustomStringConvertible {
       return "concat(\(l1), \(l2))"
     }
   }
-  
 }
