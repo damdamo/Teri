@@ -4,6 +4,7 @@ public indirect enum Nat: Term, Equatable {
   case succ(Nat)
   case add(Nat, Nat)
   case sub(Nat, Nat)
+  case mul(Nat, Nat)
   case eq(Nat, Nat)
   case `var`(String)
   
@@ -15,6 +16,8 @@ public indirect enum Nat: Term, Equatable {
       return self.ruleSub()
     case .eq(_, _):
       return self.ruleEq()
+    case .mul(_, _):
+      return self.ruleMul()
     default:
       return nil
     }
@@ -39,6 +42,21 @@ public indirect enum Nat: Term, Equatable {
       return a
     case .sub(.succ(let a), .succ(let b)):
       return .sub(a,b)
+    default:
+      return nil
+    }
+  }
+  
+  public func ruleMul() -> Nat? {
+    switch self {
+    case .mul(.zero, _):
+      return .zero
+    case .mul(_, .zero):
+      return .zero
+    case .mul(let x, .succ(.zero)):
+      return x
+    case .mul(let x, .succ(let y)):
+      return .add(x, .mul(x, y))
     default:
       return nil
     }
@@ -87,6 +105,14 @@ public indirect enum Nat: Term, Equatable {
           ySubs
         )
       }
+    case .mul(let x, let y):
+      if let xSubs = x.substitution(dicVal: dicVal) as? Nat,
+        let ySubs = y.substitution(dicVal: dicVal) as? Nat {
+        return Nat.mul(
+          xSubs,
+          ySubs
+        )
+      }
     case .eq(let x, let y):
       if let xSubs = x.substitution(dicVal: dicVal) as? Nat,
         let ySubs = y.substitution(dicVal: dicVal) as? Nat {
@@ -121,7 +147,12 @@ public indirect enum Nat: Term, Equatable {
           return Nat.sub(xEval, yEval)
         }
       }
-      
+    case .mul(let x, let y):
+      if let xEval = Strategy.eval(t: x, s: s) as? Nat {
+        if let yEval = Strategy.eval(t: y, s: s) as? Nat {
+          return Nat.mul(xEval, yEval)
+        }
+      }
     case .eq(let x, let y):
       if let xEval = Strategy.eval(t: x, s: s) as? Nat {
         if let yEval = Strategy.eval(t: y, s: s) as? Nat {

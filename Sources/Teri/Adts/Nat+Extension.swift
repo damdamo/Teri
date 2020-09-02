@@ -11,6 +11,8 @@ extension Nat: CustomStringConvertible {
       return "add(\(x.description), \(y.description))"
     case .sub(let x, let y):
       return "sub(\(x.description), \(y.description))"
+    case .mul(let x, let y):
+      return "mul(\(x.description), \(y.description))"
     case .var(let v):
       return v
     }

@@ -39,7 +39,7 @@ Terms which are already implemented with following operations are:
 
 |         | Generators    | Operations                  |
 |---------|:-------------:|:----------------------------|
-| Nat     |*zero, succ*  |  *add(Nat,Nat), sub(Nat,Nat), eq(Nat,Nat)* |
+| Nat     |*zero, succ*  |  *add(Nat,Nat), sub(Nat,Nat), mul(Nat,Nat), eq(Nat,Nat)* |
 | Boolean | *true, false* | *not(Boolean), and(Boolean,Boolean), or(Boolean, Boolean)* |
 | List\<T>| *empty, cons(T, List\<T>)* | *insert(T, List\<T>), concat(List\<T>, List\<T>)*|
 
