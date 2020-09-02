@@ -41,7 +41,7 @@ Terms which are already implemented with following operations are:
 |---------|:-------------:|:----------------------------|
 | Nat     |*zero, succ*  |  *add(Nat,Nat), sub(Nat,Nat), mul(Nat,Nat), eq(Nat,Nat)* |
 | Boolean | *true, false* | *not(Boolean), and(Boolean,Boolean), or(Boolean, Boolean)* |
-| List\<T>| *empty, cons(T, List\<T>)* | *insert(T, List\<T>), concat(List\<T>, List\<T>)*|
+| List\<T>| *empty, cons(T, List\<T>)* | *insert(T, List\<T>), insert(T, List\<T>), concat(List\<T>, List\<T>), contains(T, List\<T>), isEmpty(List\<T>), size(List\<T>)*|
 
 Terms are implemented using Swift Enums.
 The aim is to simplify the way to write terms.
