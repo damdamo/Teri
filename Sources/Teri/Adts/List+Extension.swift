@@ -37,8 +37,16 @@ extension List: CustomStringConvertible {
       return "cons(\(t), \(l))"
     case .insert(let t, let l):
       return "insert(\(t), \(l))"
+    case .remove(let t, let l):
+      return "remove(\(t), \(l))"
     case .concat(let l1, let l2):
       return "concat(\(l1), \(l2))"
+    case .contains(let t, let l):
+      return "contains(\(t), \(l))"
+    case .isEmpty(let l):
+      return "isEmpty(\(l))"
+    case .size(let l):
+      return "size(\(l))"
     }
   }
 }
