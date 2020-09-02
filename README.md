@@ -1,6 +1,8 @@
+[![Build Status](https://travis-ci.org/damdamo/Teri.svg?branch=master)](https://travis-ci.org/damdamo/Teri)
+
 # Teri (TErm RewrIting)
 
-Teri is a library to term rewriting using strategies.
+Teri is a library for term rewriting using strategies.
 Based on ADT (Algebraic Data Type), Teri describes formally types with their corresponding operations.
 Moreover, a term is evaluated using a strategy.
 Strategies select the way of evaluate a term.
